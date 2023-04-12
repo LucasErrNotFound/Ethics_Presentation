@@ -1,18 +1,20 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createSignal} from "@motion-canvas/core/lib/signals";
 import {Txt, Layout, Rect, Line, Circle, Spline, Knot} from '@motion-canvas/2d/lib/components';
-import {beginSlide, createRef} from '@motion-canvas/core/lib/utils';
+import {beginSlide, createRef, makeRef, range} from '@motion-canvas/core/lib/utils';
 import {waitFor, waitUntil, all, loop} from '@motion-canvas/core/lib/flow';
-import {easeInOutCubic, easeOutCubic, easeOutQuint, easeInOutElastic, tween, map} from '@motion-canvas/core/lib/tweening';
-import {CameraView} from "@ksassnowski/motion-canvas-camera";
+import {easeInOutCubic, easeOutCubic, easeOutQuint, easeInOutElastic, tween, map, linear} from '@motion-canvas/core/lib/tweening';
 import {join} from "@motion-canvas/core/lib/threading";
+import {Vector2} from '@motion-canvas/core/lib/types';
+import {Gradient} from '@motion-canvas/2d/lib/partials';
+import {CameraView} from "@ksassnowski/motion-canvas-camera";
 import {Gear, StrutConfig} from '@jtstrader/motion-canvas-components';
 
 const BRIGHT_RED = "#fb4934"
 const BRIGHT_GREEN = "#b8bb26"
 const BRIGHT_YELLOW = "#fabd2f"
 const BRIGHT_BLUE = "#83a598"
-const BRIGHT_RURPLE = "#d3869b"
+const BRIGHT_PURPLE = "#d3869b"
 const BRIGHT_AQUA = "#8ec07c"
 const BRIGHT_ORANGE = "#fe8019"
 const WHITE = "#fff"
@@ -30,6 +32,19 @@ export default makeScene2D(function* (view){
 
 	const VIRTUE_BLOCK = createRef<Rect>();
 	const VIRTUE_EXPLANATION = createRef<Txt>();
+
+	const spline = createRef<Spline>();
+	const rect = createRef<Rect>();
+	const knots: Knot[] = [];
+
+	const petals = 6;
+	const theta = (Math.PI * 2) / petals;
+
+	const HEART_1 = createRef<Spline>();
+	const HEART_2 = createRef<Spline>();
+	const HEART_3  = createRef<Spline>();
+	const HEART_4 = createRef<Spline>();
+	const HEART_5 = createRef<Spline>();
 
 	const MAIN_GEAR_CONFIG: StrutConfig = {
 		struts: 5,
@@ -146,7 +161,104 @@ export default makeScene2D(function* (view){
 			</Rect>
 		</>
 	);
+
+	view.add(
+		<Spline ref={spline} opacity={0} lineWidth={6} stroke={'#fdaf09'} clip closed>
+			<Rect
+				ref={rect}
+				x={-400}
+				size={400}
+				fill={
+					new Gradient({
+						from: [-400, 0],
+						to: [400, 0],
+						stops: [
+							{offset: 0, color: '#fc746d'},
+							{offset: 1, color: '#fed7b1'},
+						],
+					})
+				}
+			/>
+		<>
+				{...range(petals).map(i => (
+					<>
+						<Knot position={[0, 0]} />,
+							<Knot
+								ref={makeRef(knots, i)}
+								position={Vector2.fromRadians(theta * i).scale(160)}
+								endHandle={Vector2.fromRadians(theta * i).perpendicular.scale(60)}
+						/>
+					</>
+				))}
+			</>
+		</Spline>,
+	);
+
+	view.add(
+		<Spline ref={HEART_1} x={2000} y={0} scale={3} lineWidth={4} fill={BRIGHT_RED} closed>
+			<Knot position={[-120, -30]} startHandle={[0, 70]} />
+				<Knot
+					position={[0, -50]}
+					startHandle={[-40, -60]}
+					endHandle={[40, -60]}
+				/>
+			<Knot position={[120, -30]} startHandle={[0, -70]} />
+			<Knot position={[0, 100]} startHandle={[5, 0]} />
+		</Spline>,
+	);
 	
+	view.add(
+		<Spline ref={HEART_2} x={2000} y={-400} rotation={-20} scale={1} lineWidth={4} fill={BRIGHT_GREEN} closed>
+			<Knot position={[-120, -30]} startHandle={[0, 70]} />
+				<Knot
+					position={[0, -50]}
+					startHandle={[-40, -60]}
+					endHandle={[40, -60]}
+				/>
+			<Knot position={[120, -30]} startHandle={[0, -70]} />
+			<Knot position={[0, 100]} startHandle={[5, 0]} />
+		</Spline>,
+	);
+		
+	view.add(
+		<Spline ref={HEART_3} x={2000} y={-350} rotation={15} scale={1.6} lineWidth={4} fill={BRIGHT_YELLOW} closed>
+			<Knot position={[-120, -30]} startHandle={[0, 70]} />
+				<Knot
+					position={[0, -50]}
+					startHandle={[-40, -60]}
+					endHandle={[40, -60]}
+				/>
+			<Knot position={[120, -30]} startHandle={[0, -70]} />
+			<Knot position={[0, 100]} startHandle={[5, 0]} />
+		</Spline>,
+	);
+
+	view.add(
+		<Spline ref={HEART_4} x={2000} y={380} rotation={-23} scale={1.5} lineWidth={4} fill={BRIGHT_BLUE} closed>
+			<Knot position={[-120, -30]} startHandle={[0, 70]} />
+				<Knot
+					position={[0, -50]}
+					startHandle={[-40, -60]}
+					endHandle={[40, -60]}
+				/>
+			<Knot position={[120, -30]} startHandle={[0, -70]} />
+			<Knot position={[0, 100]} startHandle={[5, 0]} />
+		</Spline>,
+	);
+
+	view.add(
+		<Spline ref={HEART_5} x={2000} y={180} rotation={20} scale={2} lineWidth={4} fill={BRIGHT_PURPLE} closed>
+			<Knot position={[-120, -30]} startHandle={[0, 70]} />
+				<Knot
+					position={[0, -50]}
+					startHandle={[-40, -60]}
+					endHandle={[40, -60]}
+				/>
+			<Knot position={[120, -30]} startHandle={[0, -70]} />
+			<Knot position={[0, 100]} startHandle={[5, 0]} />
+		</Spline>,
+	);
+
 	yield* beginSlide("First Slide");
 	yield* waitFor(2);
 	yield* WORD_VIRTUE().text("VIRTUE...", 1);
@@ -204,6 +316,30 @@ export default makeScene2D(function* (view){
 		SECONDARY_GEAR().position.x(-2000, 1, easeInOutElastic),
 		TERTIARY_GEAR().position.x(-2000, 1, easeInOutElastic),
 		
+		HEART_1().position.x(0, 1, easeInOutElastic),
+		HEART_2().position.x(450, 1, easeInOutElastic),
+		HEART_3().position.x(-600, 1, easeInOutElastic),
+		HEART_4().position.x(-500, 1, easeInOutElastic),
+		HEART_5().position.x(700, 1, easeInOutElastic),
 	);
+
+	for(let i = 0; i <= 5; ++i){
+		yield* all(
+			HEART_1().scale(3.5, 0.1).to(3, 0.5),
+			HEART_2().scale(1.5, 0.1).to(1, 0.5),
+			HEART_3().scale(2.2, 0.1).to(1.6, 0.5),
+			HEART_4().scale(3.0, 0.1).to(1.5, 0.5),
+			HEART_5().scale(2.5, 0.1).to(2, 0.5),
+		);
+		if(i == 3){
+			yield* all(
+				HEART_1().position.y(2000, 1, easeInOutElastic),
+				HEART_2().position.y(2000, 1, easeInOutElastic),
+				HEART_3().position.y(2000, 1, easeInOutElastic),
+				HEART_4().position.y(2000, 1, easeInOutElastic),
+				HEART_5().position.y(2000, 1, easeInOutElastic),
+			);
+		}
+	}
 
 });
