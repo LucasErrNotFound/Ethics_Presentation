@@ -1,0 +1,21 @@
+{
+  "name": "virtue_ethics",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "serve": "vite",
+    "build": "tsc && vite build"
+  },
+  "dependencies": {
+    "@jtstrader/motion-canvas-components": "^1.0.1",
+    "@ksassnowski/motion-canvas-camera": "^0.5.0",
+    "@motion-canvas/2d": "^3.5.1",
+    "@motion-canvas/core": "^3.4.0"
+  },
+  "devDependencies": {
+    "@motion-canvas/ui": "^3.5.0",
+    "@motion-canvas/vite-plugin": "^3.4.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4"
+  }
+}
