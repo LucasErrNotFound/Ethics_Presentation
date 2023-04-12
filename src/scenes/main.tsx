@@ -1,14 +1,17 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createSignal} from "@motion-canvas/core/lib/signals";
-import {Txt, Layout, Rect, Line, Circle, Spline, Knot} from '@motion-canvas/2d/lib/components';
+import {Txt, Layout, Rect, Line, Circle, Spline, Knot, Img} from '@motion-canvas/2d/lib/components';
 import {beginSlide, createRef, makeRef, range} from '@motion-canvas/core/lib/utils';
 import {waitFor, waitUntil, all, loop} from '@motion-canvas/core/lib/flow';
-import {easeInOutCubic, easeOutCubic, easeOutQuint, easeInOutElastic, tween, map, linear} from '@motion-canvas/core/lib/tweening';
+import {easeInOutCubic, easeOutCubic, easeInCubic, easeInOutElastic, tween, map, linear} from '@motion-canvas/core/lib/tweening';
 import {join} from "@motion-canvas/core/lib/threading";
 import {Vector2} from '@motion-canvas/core/lib/types';
 import {Gradient} from '@motion-canvas/2d/lib/partials';
 import {CameraView} from "@ksassnowski/motion-canvas-camera";
 import {Gear, StrutConfig} from '@jtstrader/motion-canvas-components';
+import courage from "/src/scenes/Courage.png";
+import troll from "/src/scenes/troll_face.png";
+
 
 const BRIGHT_RED = "#fb4934"
 const BRIGHT_GREEN = "#b8bb26"
@@ -45,6 +48,9 @@ export default makeScene2D(function* (view){
 	const HEART_3  = createRef<Spline>();
 	const HEART_4 = createRef<Spline>();
 	const HEART_5 = createRef<Spline>();
+
+	const COURAGE = createRef<Img>();
+	const HUMOR = createRef<Img>();
 
 	const MAIN_GEAR_CONFIG: StrutConfig = {
 		struts: 5,
@@ -162,37 +168,6 @@ export default makeScene2D(function* (view){
 		</>
 	);
 
-	view.add(
-		<Spline ref={spline} opacity={0} lineWidth={6} stroke={'#fdaf09'} clip closed>
-			<Rect
-				ref={rect}
-				x={-400}
-				size={400}
-				fill={
-					new Gradient({
-						from: [-400, 0],
-						to: [400, 0],
-						stops: [
-							{offset: 0, color: '#fc746d'},
-							{offset: 1, color: '#fed7b1'},
-						],
-					})
-				}
-			/>
-		<>
-				{...range(petals).map(i => (
-					<>
-						<Knot position={[0, 0]} />,
-							<Knot
-								ref={makeRef(knots, i)}
-								position={Vector2.fromRadians(theta * i).scale(160)}
-								endHandle={Vector2.fromRadians(theta * i).perpendicular.scale(60)}
-						/>
-					</>
-				))}
-			</>
-		</Spline>,
-	);
 
 	view.add(
 		<Spline ref={HEART_1} x={2000} y={0} scale={3} lineWidth={4} fill={BRIGHT_RED} closed>
@@ -258,6 +233,25 @@ export default makeScene2D(function* (view){
 			<Knot position={[0, 100]} startHandle={[5, 0]} />
 		</Spline>,
 	);
+
+	view.add(
+		<Img 
+			ref={COURAGE}
+			src={courage}
+			x={0}
+			y={8000}
+		/>
+	);
+
+	view.add(
+		<Img 
+			ref={HUMOR}
+			src={troll}
+			y={1500}
+			scale={2}
+		/>
+	);
+
 
 	yield* beginSlide("First Slide");
 	yield* waitFor(2);
@@ -333,13 +327,66 @@ export default makeScene2D(function* (view){
 		);
 		if(i == 3){
 			yield* all(
-				HEART_1().position.y(2000, 1, easeInOutElastic),
-				HEART_2().position.y(2000, 1, easeInOutElastic),
-				HEART_3().position.y(2000, 1, easeInOutElastic),
-				HEART_4().position.y(2000, 1, easeInOutElastic),
-				HEART_5().position.y(2000, 1, easeInOutElastic),
+				HEART_1().position.y(-2000, 1, easeInOutElastic),
+				HEART_2().position.y(-2000, 1, easeInOutElastic),
+				HEART_3().position.y(-2000, 1, easeInOutElastic),
+				HEART_4().position.y(-2000, 1, easeInOutElastic),
+				HEART_5().position.y(-2000, 1, easeInOutElastic),
+
+				COURAGE().position.y(0, 1, easeInOutCubic).to(-50, 1, easeInCubic).to(-5000, 0.5, easeOutCubic),
 			);
 		}
 	}
 
+	view.add(
+		<Spline ref={spline} lineWidth={6} scale={2.5} y={0} stroke={BRIGHT_PURPLE} clip closed>
+			<Rect
+				ref={rect}
+				x={-400}
+				size={400}
+				fill={
+					new Gradient({
+						from: [-400, 0],
+						to: [400, 0],
+							stops: [
+								{offset: 0, color: BRIGHT_GREEN},
+								{offset: 1, color: BRIGHT_AQUA},
+							],
+					})
+				}
+			/>
+      <>
+		{...range(petals).map(i => (
+			<>
+				<Knot position={[0, 0]} />,
+					<Knot
+						ref={makeRef(knots, i)}
+						position={Vector2.fromRadians(theta * i).scale(160)}
+						endHandle={Vector2.fromRadians(theta * i).perpendicular.scale(60)}
+					/>
+				</>
+		))}
+		</>
+	</Spline>,
+  );
+
+	yield* spline().end(0).end(1, 1);
+	yield* all(rect().position.x(0, 1), spline().lineWidth(0, 1));
+	yield* all(
+			spline().rotation(240, 6, linear),
+			...knots.map(knot => all(knot.rotation(180, 3, linear).to(0, 3), knot.scale(2, 3).to(1, 3)),
+			),
+	);
+	yield* all(
+		spline().position.y(-1500, 1, easeInOutElastic),
+		HUMOR().position.y(0, 1, easeInOutElastic),
+		HUMOR().rotation(10, 0.3).to(-10, 0.3).to(10, 0.3).to(-10, 0.3),
+	);
+
+	for(let k = 1; k <= 3; ++k){
+		yield* HUMOR().rotation(10, 0.3).to(-10, 0.3).to(10, 0.3).to(-10, 0.3);
+	};
+
+	yield* HUMOR().position.y(-1500, 1, easeInOutElastic);
+	yield* waitFor(1);
 });
