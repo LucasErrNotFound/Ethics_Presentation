@@ -1,0 +1,159 @@
+import {Circle, Polygon, Node, Txt} from "@motion-canvas/2d/lib/components";
+import {makeScene2D} from "@motion-canvas/2d/lib/scenes";
+import {waitFor} from "@motion-canvas/core/lib/flow";
+import {Color} from "@motion-canvas/core/lib/types";
+import {createRef, range} from "@motion-canvas/core/lib/utils";
+import {CameraView} from "@ksassnowski/motion-canvas-camera";
+import {Gear, StrutConfig} from '@jtstrader/motion-canvas-components';
+import { CircleText } from "../components/CircleText";
+
+const linearTimingFunction = (value: number) => value;
+
+const BRIGHT_RED = "#fb4934"
+const BRIGHT_GREEN = "#b8bb26"
+const BRIGHT_YELLOW = "#fabd2f"
+const BRIGHT_BLUE = "#83a598"
+const BRIGHT_PURPLE = "#d3869b"
+const BRIGHT_AQUA = "#8ec07c"
+const BRIGHT_ORANGE = "#fe8019"
+const WHITE = "#fff"
+const GRUVBOX_DARK = "#1d2021"
+
+export default makeScene2D(function* (view) {
+	const runeColor = new Color("#1BFFFF");
+	const runeColor2 = runeColor.brighten(2);
+	const runeColor3 = runeColor.darken(2);
+
+	const cirlceRefs = range(3).map(() => createRef<Circle>());
+	const radius = 200;
+	const strokeWidth = radius / 20;
+
+	const bigCircleTextRef = createRef<CircleText>();
+	const circleTextRef = createRef<CircleText>();
+
+	const polyRef1 = createRef<Polygon>();
+	const polyRef2 = createRef<Polygon>();
+
+	const first_small_main_gear = createRef<Gear>();
+	const second_small_main_gear = createRef<Gear>();
+
+	const EVIL = createRef<Txt>();
+	const BAD_VICES = createRef<Txt>();
+
+	const first_small_main_gear_config: StrutConfig = {
+		struts: 5,
+		widthFactor: 0.5,
+		concenctricDiameter: 300,
+		concentricThicknessFactor: 2,
+	};
+	
+	const second_small_main_gear_config: StrutConfig = {
+		struts: 3,
+		widthFactor: 0.5,
+		concenctricDiameter: 250,
+		concentricThicknessFactor: 2,
+	};
+
+	const runeCircleText = "ANGER || SADNESS || HATRED || EVIL ||";
+
+	view.add(
+		<Node shadowBlur={20} shadowColor={runeColor3} scale={0.5} x={-700} y={250}>
+			<Polygon
+				ref={polyRef1}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={0}
+				lineWidth={strokeWidth}
+				stroke={runeColor3}
+			/>
+			<Polygon
+				ref={polyRef2}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={180}
+				lineWidth={strokeWidth}
+				stroke={runeColor3}
+			/>
+
+			{cirlceRefs.map((_, i) => {
+				return (
+					<Circle
+						lineWidth={strokeWidth}
+						ref={cirlceRefs[i]}
+						width={(i + 1) * radius}
+						opacity={0.9}
+						height={(i + 1) * radius}
+						stroke={runeColor}
+					/>
+				);
+			})}
+			<CircleText
+				ref={circleTextRef}
+				radius={radius * 0.75}
+				fontSize={radius * 0.2}
+				color={runeColor2}
+				text={runeCircleText}
+			/>
+			<CircleText
+				ref={bigCircleTextRef}
+				radius={radius * 1.25}
+				fontSize={radius * 0.2}
+				color={runeColor2}
+				text={runeCircleText + runeCircleText}
+			/>
+		</Node>
+	);
+
+	view.add(
+		<Gear 
+			ref={first_small_main_gear} 
+			diameter={500} 
+			teeth={10} 
+			x={-300}
+			y={250}
+			scale={0.4}
+			color={BRIGHT_ORANGE}>
+		</Gear>
+	);
+
+	view.add(
+		<Gear 
+			ref={second_small_main_gear} 
+			diameter={400} 
+			teeth={10} 
+			x={-300}
+			y={450}
+			scale={0.3}
+			color={BRIGHT_AQUA}
+		/>
+	);
+
+	view.add(
+		<Txt
+			ref={EVIL}
+			fontFamily={'Fira Code Retina'}
+			x={0}
+			y={150}
+		/>
+	);
+
+	yield EVIL().text("EVIL");
+
+	yield circleTextRef().rotation(-360, 18, linearTimingFunction);
+	yield bigCircleTextRef().rotation(360, 20, linearTimingFunction);
+
+	yield polyRef1().rotation(-360 - 180, 80, linearTimingFunction);
+	yield polyRef2().rotation(-360, 80, linearTimingFunction);
+
+	yield first_small_main_gear().struts(first_small_main_gear_config, 2);	
+	yield second_small_main_gear().struts(second_small_main_gear_config, 2);	
+
+
+
+
+
+  yield* waitFor(20);
+
+});

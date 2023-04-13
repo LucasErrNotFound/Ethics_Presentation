@@ -1,5 +1,14 @@
 {
   "version": 0,
-  "timeEvents": [],
+  "timeEvents": [
+    {
+      "name": "EVILGO UP",
+      "targetTime": 2.8015216008235546
+    },
+    {
+      "name": "STAR_BRO",
+      "targetTime": 3.8015216008235546
+    }
+  ],
   "seed": 4168490378
 }
