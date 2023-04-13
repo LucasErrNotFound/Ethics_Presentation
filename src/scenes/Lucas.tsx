@@ -13,7 +13,6 @@ import courage from "/src/scenes/Courage.png";
 import troll from "/src/scenes/troll_face.png";
 import { CircleText } from "../components/CircleText";
 
-
 const BRIGHT_RED = "#fb4934"
 const BRIGHT_GREEN = "#b8bb26"
 const BRIGHT_YELLOW = "#fabd2f"

@@ -1,0 +1,18 @@
+{
+  "version": 0,
+  "timeEvents": [
+    {
+      "name": "TERTIARY_GEAR",
+      "targetTime": 20.41666666666667
+    },
+    {
+      "name": "EVILGO UP",
+      "targetTime": 62.5333333333333
+    },
+    {
+      "name": "STAR_BRO",
+      "targetTime": 67.5333333333333
+    }
+  ],
+  "seed": 981086819
+}
