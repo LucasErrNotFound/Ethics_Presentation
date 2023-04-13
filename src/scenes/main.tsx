@@ -1,11 +1,11 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createSignal} from "@motion-canvas/core/lib/signals";
-import {Txt, Layout, Rect, Line, Circle, Spline, Knot, Img} from '@motion-canvas/2d/lib/components';
+import {Txt, Layout, Rect, Line, Circle, Spline, Knot, Img, Polygon, Node} from '@motion-canvas/2d/lib/components';
 import {beginSlide, createRef, makeRef, range} from '@motion-canvas/core/lib/utils';
 import {waitFor, waitUntil, all, loop} from '@motion-canvas/core/lib/flow';
 import {easeInOutCubic, easeOutCubic, easeInCubic, easeInOutElastic, tween, map, linear} from '@motion-canvas/core/lib/tweening';
 import {join} from "@motion-canvas/core/lib/threading";
-import {Vector2} from '@motion-canvas/core/lib/types';
+import {Vector2, Color} from '@motion-canvas/core/lib/types';
 import {Gradient} from '@motion-canvas/2d/lib/partials';
 import {CameraView} from "@ksassnowski/motion-canvas-camera";
 import {Gear, StrutConfig} from '@jtstrader/motion-canvas-components';
@@ -22,6 +22,8 @@ const BRIGHT_AQUA = "#8ec07c"
 const BRIGHT_ORANGE = "#fe8019"
 const WHITE = "#fff"
 const GRUVBOX_DARK = "#1d2021"
+
+const linearTimingFunction = (value: number) => value;
 
 export default makeScene2D(function* (view){
 
@@ -51,6 +53,19 @@ export default makeScene2D(function* (view){
 
 	const COURAGE = createRef<Img>();
 	const HUMOR = createRef<Img>();
+
+	const OF_COURSE = createRef<Txt>();
+	const ITS_NOT_ALWAYS = createRef<Txt>();
+
+	const runeColor = new Color("#1BFFFF");
+	const runeColor3 = runeColor.brighten(2.5);
+	const cirlceRefs = range(3).map(() => createRef<Circle>());
+	const radius = 200;
+	const strokeWidth = radius / 20;
+
+	const polyRef1 = createRef<Polygon>();
+	const polyRef2 = createRef<Polygon>();
+	const STAR = createRef<Node>();
 
 	const MAIN_GEAR_CONFIG: StrutConfig = {
 		struts: 5,
@@ -252,6 +267,62 @@ export default makeScene2D(function* (view){
 		/>
 	);
 
+	view.add(
+		<Txt
+			ref={OF_COURSE}
+			fontSize={120}
+			fontFamily={'Fira Code Retina'}
+			fill={BRIGHT_AQUA}
+			opacity={0}
+		/>
+	);
+
+	view.add(
+		<Txt
+			ref={ITS_NOT_ALWAYS}
+			fontSize={120}
+			fontFamily={'Fira Code Retina'}
+			fill={BRIGHT_RED}
+			opacity={0}
+			y={0}
+		/>
+	);
+
+	view.add(
+		<Node ref={STAR} shadowBlur={20} shadowColor={runeColor3} scale={0.85} x={-1500} y={200}>
+			<Polygon
+				ref={polyRef1}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={0}
+				lineWidth={strokeWidth}
+				 stroke={runeColor3}
+			/>
+			<Polygon
+				ref={polyRef2}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={180}
+				lineWidth={strokeWidth}
+				stroke={runeColor3}
+			/>
+
+			{cirlceRefs.map((_, i) => {
+				return (
+					<Circle
+						lineWidth={strokeWidth}
+						ref={cirlceRefs[i]}
+						width={(i + 1) * radius}
+						opacity={0.9}
+						height={(i + 1) * radius}
+						stroke={runeColor}
+					/>
+				);
+			})}
+		</Node>
+	);
 
 	yield* beginSlide("First Slide");
 	yield* waitFor(2);
@@ -388,5 +459,35 @@ export default makeScene2D(function* (view){
 	};
 
 	yield* HUMOR().position.y(-1500, 1, easeInOutElastic);
+	yield* beginSlide('Second Slide');
+
+	yield* all(
+		OF_COURSE().opacity(1, 1),
+		OF_COURSE().text("OF COURSE,", 1),
+	);
 	yield* waitFor(1);
+	yield* all(
+		OF_COURSE().position.y(-350, 1),
+		ITS_NOT_ALWAYS().opacity(1, 1),
+		ITS_NOT_ALWAYS().position.y(-200, 1, easeInCubic),
+		ITS_NOT_ALWAYS().text("IT IS VIRTUE", 1),
+	);
+
+	yield all(
+		STAR().position.x(0, 1, easeInOutCubic),
+
+		polyRef1().rotation(-360 - 180, 80, linearTimingFunction),
+		polyRef2().rotation(-360, 80, linearTimingFunction),
+	);
+
+	yield* waitFor(10);
+
+	yield* all(
+		STAR().position.y(-1500, 1, easeInOutCubic),
+		OF_COURSE().opacity(0, 0.5),
+		ITS_NOT_ALWAYS().opacity(0, 0.5),
+	);
+
+	yield* waitFor(1);
+
 });
