@@ -1,57 +1,61 @@
-import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {Knot, Rect, Spline} from '@motion-canvas/2d/lib/components';
-import {createRef, makeRef, range} from '@motion-canvas/core/lib/utils';
-import {all} from '@motion-canvas/core/lib/flow';
-import {Vector2} from '@motion-canvas/core/lib/types';
-import {linear} from '@motion-canvas/core/lib/tweening';
-import {Gradient} from '@motion-canvas/2d/lib/partials';
+import {Circle, Polygon, Node } from "@motion-canvas/2d/lib/components";
+import {makeScene2D} from "@motion-canvas/2d/lib/scenes";
+import {waitFor} from "@motion-canvas/core/lib/flow";
+import {Color} from "@motion-canvas/core/lib/types";
+import {createRef, range} from "@motion-canvas/core/lib/utils";
+
+const linearTimingFunction = (value: number) => value;
 
 export default makeScene2D(function* (view) {
-		const spline = createRef<Spline>();
-		const rect = createRef<Rect>();
-		const knots: Knot[] = [];
 
-		const petals = 6;
-		const theta = (Math.PI * 2) / petals;
+  const runeColor = new Color("#8ff");
+  const runeColor3 = runeColor.darken(1.5);
+  const cirlceRefs = range(3).map(() => createRef<Circle>());
+  const radius = 200;
+  const strokeWidth = radius / 20;
 
-		view.add(
-				<Spline ref={spline} lineWidth={6} stroke={'#fdaf09'} clip closed>
-				<Rect
-				ref={rect}
-				x={-400}
-				size={400}
-				fill={
-				new Gradient({
-from: [-400, 0],
-to: [400, 0],
-stops: [
-{offset: 0, color: '#fc746d'},
-{offset: 1, color: '#fed7b1'},
-],
-})
-				}
-				/>
+  const polyRef1 = createRef<Polygon>();
+  const polyRef2 = createRef<Polygon>();
 
-				<>
-				{...range(petals).map(i => (
-							<>
-							<Knot position={[0, 0]} />,
-							<Knot
-							ref={makeRef(knots, i)}
-							position={Vector2.fromRadians(theta * i).scale(160)}
-							endHandle={Vector2.fromRadians(theta * i).perpendicular.scale(60)}
-							/>
-							</>
-							))}
-				</>
-				</Spline>,
+
+	view.add(
+		<Node shadowBlur={20} shadowColor={runeColor3} scale={0.5}>
+			<Polygon
+				ref={polyRef1}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={0}
+				lineWidth={strokeWidth}
+				 stroke={runeColor3}
+			/>
+			<Polygon
+				ref={polyRef2}
+				width={radius * 4}
+				height={radius * 4}
+				sides={3}
+				rotation={180}
+				lineWidth={strokeWidth}
+				stroke={runeColor3}
+			/>
+
+			{cirlceRefs.map((_, i) => {
+				return (
+					<Circle
+						lineWidth={strokeWidth}
+						ref={cirlceRefs[i]}
+						width={(i + 1) * radius}
+						opacity={0.9}
+						height={(i + 1) * radius}
+						stroke={runeColor}
+					/>
 				);
-yield* spline().end(0).end(1, 2);
-yield* all(rect().position.x(0, 1), spline().lineWidth(0, 1));
-yield* all(
-		spline().rotation(240, 6, linear),
-		...knots.map(knot =>
-			all(knot.rotation(180, 3, linear).to(0, 3), knot.scale(2, 3).to(1, 3)),
-			),
-		);
+			})}
+		</Node>
+	);
+
+  yield polyRef1().rotation(-360 - 180, 80, linearTimingFunction);
+  yield polyRef2().rotation(-360, 80, linearTimingFunction);
+
+  yield* waitFor(20);
 });
