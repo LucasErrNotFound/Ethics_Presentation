@@ -1,10 +1,9 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
 import {createSignal} from "@motion-canvas/core/lib/signals";
-import {Txt, Layout, Rect, Line, Circle, Spline, Knot, Img, Polygon, Node} from '@motion-canvas/2d/lib/components';
+import {Txt, Rect, Line, Circle, Spline, Knot, Img, Polygon, Node} from '@motion-canvas/2d/lib/components';
 import {beginSlide, createRef, makeRef, range} from '@motion-canvas/core/lib/utils';
-import {waitFor, waitUntil, all, loop} from '@motion-canvas/core/lib/flow';
-import {easeInOutCubic, easeOutCubic, easeInCubic, easeInOutElastic, tween, map, linear} from '@motion-canvas/core/lib/tweening';
-import {join} from "@motion-canvas/core/lib/threading";
+import {waitFor, waitUntil, all} from '@motion-canvas/core/lib/flow';
+import {easeInOutCubic, easeOutCubic, easeInCubic, easeInOutElastic, linear} from '@motion-canvas/core/lib/tweening';
 import {Vector2, Color} from '@motion-canvas/core/lib/types';
 import {Gradient} from '@motion-canvas/2d/lib/partials';
 import {CameraView} from "@ksassnowski/motion-canvas-camera";
@@ -812,7 +811,4 @@ export default makeScene2D(function* (view){
 		FANTASY_BLOCK().position.x(-1500, 1, easeInOutElastic),
 		ARROW().position.y(1800, 1, easeInOutCubic),
 	);
-
-	yield* beginSlide("Third Slide");
-
 });
