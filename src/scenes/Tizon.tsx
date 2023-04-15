@@ -9,6 +9,7 @@ import {Gradient} from '@motion-canvas/2d/lib/partials';
 import {CameraView} from "@ksassnowski/motion-canvas-camera";
 import {Gear, StrutConfig} from '@jtstrader/motion-canvas-components';
 import courage from "/src/scenes/Courage.png";
+import Aristotle from "/src/scenes/Aristotle_Pic.png";
 
 const BRIGHT_RED = "#fb4934"
 const BRIGHT_GREEN = "#b8bb26"
@@ -22,6 +23,36 @@ const GRUVBOX_DARK = "#1d2021"
 
 
 export default makeScene2D(function* (view){
+
+	const ARISTOTLE_NAME = createRef<Txt>();
+	const ARISTOTLE_PICTURE = createRef<Img>();
+	const ARISTOTLE_FORMAT = createRef<Node>();
+
+	view.add(
+		<Node ref={ARISTOTLE_FORMAT}>
+			<Txt
+				antialiased
+				ref={ARISTOTLE_NAME}
+				text={'ARISTOTLE'}
+				fontSize={120}
+				fontFamily={'Fira Code Retina'}
+				fill={BRIGHT_YELLOW}
+				x={0}
+				y={-400}
+			/>
+
+			<Img
+				antialiased
+				ref={ARISTOTLE_PICTURE}
+				src={Aristotle}
+				lineWidth={50}
+				stroke={BRIGHT_BLUE}
+				scale={0.35}
+				x={0}
+				y={100}
+			/>
+		</Node>
+	);
 
 	yield* beginSlide('Fifth Slide');
 	yield* waitFor(10);
