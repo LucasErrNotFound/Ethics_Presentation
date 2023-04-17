@@ -8,9 +8,8 @@ import Sianrey from './scenes/Sianrey?scene';
 import Abbygail from './scenes/Abbygail?scene';
 import Mardie from './scenes/Mardie?scene';
 import Pancho from './scenes/Pancho?scene';
-import testing from './scenes/testing?scene';
 import './global.css';
 
 export default makeProject({
-  scenes: [Lucas, Melissa, Marion, Tizon, Sianrey, Abbygail, Mardie, Pancho, testing],
+  scenes: [Lucas, Melissa, Marion, Tizon, Sianrey, Abbygail, Mardie, Pancho,],
 });
