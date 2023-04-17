@@ -596,6 +596,7 @@ export default makeScene2D(function* (view){
 
 		if(i == 3){
 			yield* all( 
+				HEART().scale(3.5, 0.1).to(3, 0.5),
 				HEART().position.x(1500, 0.5, easeInOutCubic),
 				MAIN_GEAR().position.x(-280, 1, easeInOutElastic),
 				SECONDARY_GEAR().position.x(250, 1, easeInOutElastic),
@@ -634,6 +635,12 @@ export default makeScene2D(function* (view){
 		);
 		if(i == 3){
 			yield* all(
+				HEART_1().scale(3.5, 0.1).to(3, 0.5),
+				HEART_2().scale(1.5, 0.1).to(1, 0.5),
+				HEART_3().scale(2.2, 0.1).to(1.6, 0.5),
+				HEART_4().scale(3.0, 0.1).to(1.5, 0.5),
+				HEART_5().scale(2.5, 0.1).to(2, 0.5),
+
 				HEART_1().position.y(-2000, 1, easeInOutElastic),
 				HEART_2().position.y(-2000, 1, easeInOutElastic),
 				HEART_3().position.y(-2000, 1, easeInOutElastic),
@@ -646,7 +653,7 @@ export default makeScene2D(function* (view){
 	}
 
 	view.add(
-		<Spline ref={spline} lineWidth={6} scale={2.5} y={0} stroke={BRIGHT_PURPLE} clip closed>
+		<Spline ref={spline} lineWidth={6} scale={3.1} y={0} stroke={BRIGHT_PURPLE} clip closed>
 			<Rect
 				ref={rect}
 				x={-400}
