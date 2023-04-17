@@ -99,7 +99,7 @@ export default makeScene2D(function* (view){
 	);
 
 	view.add(
-		<Rect layout ref={NICOMACHEAN_BLOCK} antialiased stroke={BRIGHT_YELLOW} lineWidth={6.5} lineHeight={160} x={300} padding={25}>	
+		<Rect layout ref={NICOMACHEAN_BLOCK} antialiased stroke={BRIGHT_YELLOW} lineWidth={6.5} lineHeight={160} x={300} padding={25} opacity={0}>	
 			<Txt
 				antialiased
 				ref={NICOMACHEAN_TEXT}
@@ -256,7 +256,10 @@ export default makeScene2D(function* (view){
 	);
 	yield* waitFor(1);
 
-	yield* NICOMACHEAN_TEXT().text("NICOMACHEAN\n ETHICS", 1);
+	yield* all(
+		NICOMACHEAN_BLOCK().opacity(1, 1),
+		NICOMACHEAN_TEXT().text("NICOMACHEAN\n ETHICS", 1),
+	); 
 	yield* waitFor(8);
 
 	yield* all(
