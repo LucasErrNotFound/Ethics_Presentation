@@ -262,8 +262,6 @@ export default makeScene2D(function* (view){
 	
 	yield* CAMERA_1().zoomOnto(NATURAL_BLOCK(), 1, 100, easeInOutCubic);
 
-	yield* CAMERA_1().zoomOnto(NATURAL_BLOCK(), 1, 100, easeInOutCubic);
-	
 
 	yield* CAMERA_1().zoomOnto(HUMAN_BLOCK(), 1, 100, easeInOutCubic);
 
