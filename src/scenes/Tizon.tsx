@@ -261,12 +261,13 @@ export default makeScene2D(function* (view){
 	yield* waitFor(8);
 	
 	yield* CAMERA_1().zoomOnto(NATURAL_BLOCK(), 1, 100, easeInOutCubic);
-
+	yield* waitFor(25);
 
 	yield* CAMERA_1().zoomOnto(HUMAN_BLOCK(), 1, 100, easeInOutCubic);
-
+	yield* waitFor(25);
 
 	yield* CAMERA_1().zoomOnto(DIVINE_BLOCK(), 1, 100, easeInOutCubic);
+	yield* waitFor(25);
 
 	yield* CAMERA_1().reset(1);
 	yield* waitFor(1);
@@ -275,6 +276,4 @@ export default makeScene2D(function* (view){
 		THE_NATURAL_LAW_FORMAT().opacity(0, 1),
 		LAWS_FORMAT().opacity(0, 1),
 	);
-
-	yield* waitFor(5);
 });
