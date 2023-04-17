@@ -285,9 +285,9 @@ export default makeScene2D(function* (view){
 
 	yield* all(
 		TARGET_FORMAT().position.y(-2000, 1, easeInOutCubic),
-		PLATONIC_FORMAT().scale(0.7, 1),
+		PLATONIC_FORMAT().scale(0.8, 1),
 		PLATONIC_FORMAT().position.x(300, 1, easeInOutCubic),
-		PLATONIC_FORMAT().position.y(250, 1, easeInOutCubic),
+		PLATONIC_FORMAT().position.y(200, 1, easeInOutCubic),
 
 		EUDAIMONIST_EXP().position.x(-350, 1),
 		EUDAIMONIST_EXP().position.y(-200, 1),

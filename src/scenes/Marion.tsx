@@ -99,12 +99,13 @@ export default makeScene2D(function* (view){
 	);
 
 	view.add(
-		<Rect layout ref={NICOMACHEAN_BLOCK} antialiased stroke={BRIGHT_YELLOW} lineWidth={5} lineHeight={160} x={300}>	
+		<Rect layout ref={NICOMACHEAN_BLOCK} antialiased stroke={BRIGHT_YELLOW} lineWidth={6.5} lineHeight={160} x={300} padding={25}>	
 			<Txt
 				antialiased
 				ref={NICOMACHEAN_TEXT}
-				fontSize={120}
+				fontSize={140}
 				fontFamily={'Fira Code Retina'}
+				textAlign={'center'}
 				fill={BRIGHT_AQUA}
 				y={0}
 			/>

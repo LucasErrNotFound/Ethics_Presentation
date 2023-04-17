@@ -103,6 +103,7 @@ export default makeScene2D(function* (view){
 
 	yield* waitFor(20);
 	yield* all(
+		VIRTUE_APPROACH_TEXT().fontSize(75, 1),
 		VIRTUE_APPROACH_TEXT().text("So What Is The Character-Based Approach?", 2),
 		VIRTUE_APPROACH_FORMAT().position.y(-450, 1, easeInOutCubic),
 	); 
@@ -119,8 +120,8 @@ export default makeScene2D(function* (view){
 	);
 
 	yield* all(
-		ARISTOTLE_PICTURE().position.y(-220, 1, easeInOutCubic),
-		ARISTOTLE_PICTURE().scale(0.25, 1),
+		ARISTOTLE_PICTURE().position.y(-190, 1, easeInOutCubic),
+		ARISTOTLE_PICTURE().scale(0.28, 1),
 		ARISTOTLE_QUOTE().text(`"Virtue is the excellence of a thing to \nperform its proper function."`, 5),
 	);
 

@@ -197,11 +197,11 @@ export default makeScene2D(function* (view){
 	view.add(
 		<Txt
 			ref={WHAT_EVEN_IS}
-			fontSize={120}
+			fontSize={145}
 			fill={BRIGHT_YELLOW}
 			fontFamily={'Fira Code Retina'}
 			x={-250}
-			y={-450}
+			y={-400}
 		/>
 	);
 
@@ -209,12 +209,12 @@ export default makeScene2D(function* (view){
 		<>
 			<Rect
 				ref={VIRTUE_BLOCK}
-				radius={10}
-			    width={1600}
-				height={600}
+				radius={20}
+			    width={1750}
+				height={650}
 			    scale={0}
 				x={0}
-				y={0}
+				y={70}
 				// fill={BRIGHT_YELLOW}
 				opacity={0}
 				lineWidth={3}>
@@ -222,6 +222,7 @@ export default makeScene2D(function* (view){
 			<Txt
 				ref={VIRTUE_EXPLANATION}
 				fontFamily={"Jetbrains Mono"}
+				scale={1.12}
 				fontSize={60}
 				lineHeight={90}
 				fill={BRIGHT_AQUA}
@@ -318,7 +319,7 @@ export default makeScene2D(function* (view){
 	view.add(
 		<Txt
 			ref={OF_COURSE}
-			fontSize={120}
+			fontSize={150}
 			fontFamily={'Fira Code Retina'}
 			fill={BRIGHT_AQUA}
 			opacity={0}
@@ -328,7 +329,7 @@ export default makeScene2D(function* (view){
 	view.add(
 		<Txt
 			ref={ITS_NOT_ALWAYS}
-			fontSize={120}
+			fontSize={140}
 			fontFamily={'Fira Code Retina'}
 			fill={BRIGHT_RED}
 			opacity={0}
@@ -337,7 +338,7 @@ export default makeScene2D(function* (view){
 	);
 
 	view.add(
-		<Node ref={STAR} shadowBlur={20} shadowColor={runeColor3} scale={0.85} x={-1500} y={200}>
+		<Node ref={STAR} shadowBlur={20} shadowColor={runeColor3} scale={0.92} x={-1500} y={200}>
 			<Polygon
 				ref={polyRef1}
 				width={radius * 4}
@@ -373,7 +374,7 @@ export default makeScene2D(function* (view){
 	);
 
 	view.add(
-		<Node shadowBlur={20} ref={STAR_BRO} shadowColor={runcolors3} scale={1} x={0} y={1800}>
+		<Node shadowBlur={20} ref={STAR_BRO} shadowColor={runcolors3} scale={1.2} x={0} y={1800}>
 			<Polygon
 				ref={PolygonRef1}
 				width={Radius * 4}
@@ -450,7 +451,7 @@ export default makeScene2D(function* (view){
 		<Txt
 			ref={EVIL}
 			fontFamily={'Fira Code Retina'}
-			fontSize={100}
+			fontSize={150}
 			text={'EVIL'}
 			fill={BRIGHT_PURPLE}
 			x={0}
@@ -462,7 +463,7 @@ export default makeScene2D(function* (view){
 		<Txt
 			ref={BAD_VICES}
 			fontFamily={'Fira Code Retina'}
-			fontSize={100}
+			fontSize={150}
 			text={"BAD VICES"}
 			fill={BRIGHT_PURPLE}
 			x={0}
@@ -474,7 +475,7 @@ export default makeScene2D(function* (view){
 		<Txt
 			ref={LOST}
 			fontFamily={'Fira Code Retina'}
-			fontSize={100}
+			fontSize={150}
 			text={"LOST"}
 			fill={BRIGHT_PURPLE}
 			x={0}
@@ -483,7 +484,7 @@ export default makeScene2D(function* (view){
 	);
 
 	view.add(
-		<Node ref={overall_sadness_line} scale={0.8} x={-150} y={1800}>
+		<Node ref={overall_sadness_line} scale={0.95} x={-150} y={1800}>
 			<Spline
 				ref={SADNESS_LINE}
 				lineWidth={10}
@@ -566,8 +567,9 @@ export default makeScene2D(function* (view){
 	yield* all(
 		WORD_VIRTUE().text("VIRTUE", 1),
 		WORD_VIRTUE().rotation(360, 1),
-		WORD_VIRTUE().fontSize(120, 1),
-		WORD_VIRTUE().position.y(-450, 1, easeInOutCubic),
+		WORD_VIRTUE().fontSize(145, 1),
+		WORD_VIRTUE().position.x(600, 1, easeInOutCubic),
+		WORD_VIRTUE().position.y(-400, 1, easeInOutCubic),
 
 		WHAT_EVEN_IS().text("WHAT EVEN IS ", 1),
 		VIRTUE_BLOCK().stroke(BRIGHT_YELLOW, 1),
@@ -701,9 +703,9 @@ export default makeScene2D(function* (view){
 	);
 	yield* waitFor(1);
 	yield* all(
-		OF_COURSE().position.y(-350, 1),
+		OF_COURSE().position.y(-400, 1),
 		ITS_NOT_ALWAYS().opacity(1, 1),
-		ITS_NOT_ALWAYS().position.y(-200, 1, easeInCubic),
+		ITS_NOT_ALWAYS().position.y(-230, 1, easeInCubic),
 		ITS_NOT_ALWAYS().text("IT IS VIRTUE", 1),
 	);
 
@@ -743,6 +745,9 @@ export default makeScene2D(function* (view){
 		first_small_main_gear().struts(first_small_main_gear_config, 2),
 		second_small_main_gear().struts(second_small_main_gear_config, 2),	
 		BAD_VICES().position.y(-450, 1, easeInOutElastic),
+
+		first_small_main_gear().crank(1),
+		second_small_main_gear().crank(1, -1),
 	);
 
 	for(let r = 1; r <= 10; r++){
@@ -753,6 +758,9 @@ export default makeScene2D(function* (view){
 	}
 
 	yield* all(
+		first_small_main_gear().crank(1),
+		second_small_main_gear().crank(1, -1),
+
 		BAD_VICES().position.y(-850, 1, easeInOutElastic),
 		gears().position.y(1800, 1, easeInOutElastic),
 		LOST().position.y(-450, 1, easeInOutElastic),
@@ -788,13 +796,14 @@ export default makeScene2D(function* (view){
 			ref={DELUSION}
 			text={"DELUSION"}
 			fontFamily={'Fira Code Retina'}
-			fontSize={100}
+			fontSize={150}
 			fill={BRIGHT_PURPLE}
 			x={0}
 			y={-850}
 		/>
 	);
 	yield* all(
+		progress(1, 2),
 		DELUSION().position.y(-450, 1, easeInOutElastic),
 		LOST().position.y(-850, 1, easeInOutElastic),
 		overall_sadness_line().position.y(1800, 1, easeInOutElastic),
@@ -811,6 +820,7 @@ export default makeScene2D(function* (view){
 		DELUSION().position.y(-850, 1, easeInOutElastic),
 		REALITY_BLOCK().position.x(1500, 1, easeInOutElastic),
 		FANTASY_BLOCK().position.x(-1500, 1, easeInOutElastic),
+		ARROW().rotation(30, 0.5, easeInOutElastic),
 		ARROW().position.y(1800, 1, easeInOutCubic),
 	);
 });

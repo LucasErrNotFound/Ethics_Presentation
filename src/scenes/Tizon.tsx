@@ -111,12 +111,13 @@ export default makeScene2D(function* (view){
 		<Txt
 			antialiased={true}
 			ref={THOMAS_PHILOSOPHY_1}
-			fontSize={56}
+			fontSize={65}
 			fontFamily={'Fira Code Retina'}
 			fill={BRIGHT_AQUA}
-			text={"- According to Aquinas, every task\n has a purpose, and enjoyment is the\n highest goal. He declared that the\n souls of the blessed in Heaven, or\n beatitude with God, are the only\n places where true happiness can be\n found."}
-			x={-350}
-			y={100}
+			lineHeight={110}
+			text={"- According to Aquinas, \nevery task has a purpose,\n and enjoyment is the\n highest goal. He declared\n that the souls of the\n blessed in Heaven, or\n beatitude with God, are\n the only places where true\n happiness can be found."}
+			x={-400}
+			y={0}
 			opacity={0}
 		/>
 	);
@@ -127,6 +128,7 @@ export default makeScene2D(function* (view){
 				antialiased={true}
 				ref={THE_NATURAL_LAW_BLOCK}
 				stroke={BRIGHT_YELLOW}
+				padding={10}
 				lineWidth={8}>
 
 				<Txt
@@ -145,7 +147,7 @@ export default makeScene2D(function* (view){
 	view.add(
 		<Node ref={LAWS_FORMAT} x={0} y={50} opacity={0}>
 			<CameraView ref={CAMERA_1} width={"100%"} height={"100%"}>
-				<Rect layout ref={ETERNAL_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={-550}>
+				<Rect layout ref={ETERNAL_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={-550} padding={10}>
 					<Txt
 						antialiased={true}
 						ref={ETERNAL_LAW}
@@ -157,7 +159,7 @@ export default makeScene2D(function* (view){
 					/>
 				</Rect>
 
-				<Rect layout ref={NATURAL_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={550}>
+				<Rect layout ref={NATURAL_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={550} padding={10}>
 					<Txt
 						antialiased={true}
 						ref={NATURAL_LAW}
@@ -169,7 +171,7 @@ export default makeScene2D(function* (view){
 					/>
 				</Rect>
 
-				<Rect layout ref={HUMAN_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={-550} y={350}>
+				<Rect layout ref={HUMAN_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={-550} y={350} padding={10}>
 					<Txt
 						antialiased={true}
 						ref={HUMAN_LAW}
@@ -181,7 +183,7 @@ export default makeScene2D(function* (view){
 					/>
 				</Rect>
 				
-				<Rect layout ref={DIVINE_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={550} y={350}>
+				<Rect layout ref={DIVINE_BLOCK} stroke={BRIGHT_YELLOW} lineWidth={5} antialiased={true} x={550} y={350} padding={10}>
 					<Txt
 						antialiased={true}
 						ref={DIVINE_LAW}

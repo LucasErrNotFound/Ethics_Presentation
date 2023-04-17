@@ -222,7 +222,6 @@ export default makeScene2D(function* (view){
 			fontSize={150}
 			fontFamily={'Fira Code Retina'}
 			fill={BRIGHT_YELLOW}
-			text={`REFERENCE`}
 			x={0}
 			y={-400}
 		/>
@@ -249,6 +248,7 @@ export default makeScene2D(function* (view){
 	yield* EXAMPLE_WORD().text("", 1);
 	yield* waitFor(3);
 
+	yield* REFERENCE_WORD().text("REFERENCE", 1);
 	yield* all(
 		REFERENCE_1().text(`1. https://books.google.com.ph/books?hl=en&lr=&id=s6jgBQAAQ\nBAJ&oi=fnd&pg=PP1&dq=virtue+ethics+meaning&ots=FXpizuK1lt&si\ng=TGsznn_0dnWiDO81uBBEB5n2Uqb8&redir_esc=y#v=onepage&q=virt\nue%20ethics%20meaning&f=false`, 3),
 
