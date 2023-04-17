@@ -529,6 +529,7 @@ export default makeScene2D(function* (view){
 				lineHeight={190}
 				radius={50}
 				stroke={BRIGHT_RED}
+				padding={10}
 				x={1500}>
 
 				<Txt
@@ -544,6 +545,7 @@ export default makeScene2D(function* (view){
 				radius={50}
 				lineHeight={190}
 				stroke={BRIGHT_RED}
+				padding={10}
 				x={-1500}>
 
 				<Txt
